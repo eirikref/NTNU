@@ -1,0 +1,684 @@
+\documentclass[norsk, a4paper, 12pt, titlepage]{article}
+\usepackage{babel, alltt, amsmath, float, epsfig, enumerate, graphicx,
+  longtable, amsfonts, pifont, parskip}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{makeidx}
+\usepackage{times}
+
+\title{TMA4135 Matematikk 4D\\Kompendium i numerikk}
+\author{Eirik Refsdal}
+
+\makeindex
+
+\begin{document}
+\maketitle
+
+\newpage
+En mangel ved dagens ``autorative'' kompendium i matematikk 4, er at
+numerikkbiten i matematikk 4D er fullstendig utelatt.  Dette er ikke
+et forsøk på å lage et dyptpløyende og fantastisk kompendium, men er
+kun ment som en oppsummering av de metodene i Kreyszigs
+\textit{Advanced Engineering Mathematics} (8th Ed.) som er pensum i
+TMA4135 Matematikk 4D.  Samt at notatet om Newtons metode for systemer
+er tatt med, og forsøkt gjort lesbart.
+
+Merk også at det er skrevet fint lite om konvergenshastigheter og
+feilvurderinger her.  Det får bli en annen gang :)
+
+Dette dokumentet er tilgjengelig i PDF- og LaTeX-format fra \newline
+http://www.refsdal.no/eirik/dokumenter/
+
+
+\newpage
+\tableofcontents
+
+\newpage
+
+
+\section{Numerical Methods in General [K17]}
+
+\subsection{Introduction [K17.1]}
+Det eneste interessante som står her er egentlig avsnittet om
+feilverdier ved numeriske metoder, som egentlig er opplagt.
+
+\begin{equation}
+a = \tilde{a} + \varepsilon, \text{True value = Approximation +
+Error.}
+\end{equation}
+
+De nevner også den \textbf{relative feilen $\varepsilon_{r}$}, som er
+definert ved
+
+\begin{equation}
+\varepsilon_{r} = \frac{\varepsilon}{a} = \frac{a - \tilde{a}}{a} =
+\frac{\text{Error}}{\text{True value}}
+\end{equation}
+
+Avslutningsvis poengterer de at enhver numerisk metode bør oppgis
+sammen med et feilestimat.
+
+
+\subsection{Solution of Equations by Iteration [K17.2]}
+
+Konseptet med metodene i dette kapittelet er at vi har en likning
+(typisk $f(x) = 0$), kjører gjennom metoden med en gjettet inputverdi
+$x_{0}$, bruker den utregnede verdien som ny inputverdi og gjentar
+denne prosedyren (naturligvis med unntak av å gjette inputverdi, siden
+vi i alle steg unntatt steg én bruker den utregnede verdien fra
+forrige iterasjon) til vi har fått et akseptabelt svar.
+
+
+\subsubsection{Fixed-Point Iteration for Solving Equations $f(x) = 0$}
+
+\begin{equation}
+x_{n+1} = g(x_{n})
+\end{equation}
+
+\textbf{Eks: K17.2.E1:} An interation process, $f(x) = x^{2} - 3x + 1
+= 0$.
+Det første vi må gjøre her er å skrive om likningen til å ha bare $x$
+på venstre side.  Vi ser at dette kan gjøres ved å dele enten på $x$
+eller 3.  Under vises utregning med deling på 3.
+
+\begin{eqnarray*}
+x & = & \frac{1}{3}(x^{2} + 1) \\
+x_{n+1} & = & \frac{1}{3}(x_{n}^{2} + 1)
+\end{eqnarray*}
+
+Nå er det bare å sette inn initialverdien for $x$ og kjøre det ønskede
+antall iterasjoner.
+
+
+\subsubsection{Newton's Method for Solving Equations $f(x) = 0$}
+\begin{equation}
+x_{n+1} = x_{n} - \frac{f(x_{n})}{f'(x_{n})}
+\end{equation}
+
+Også kjent som Newton-Raphsons metode.  Hele poenget her er å ta
+uttrykket du måtte få oppgitt, skrive det om til $f(x) = 0$ på et
+eller annet vis, derivere det og bare fylle inn i formelen over.
+
+\textbf{Eks: K17.2.11:} Design a Newton iteration for cube roots and
+compute $\sqrt[3]{7}$.
+\begin{eqnarray*}
+x & = & \sqrt[3]{7} \\
+x^{3} & = & 7 \\
+f(x) & = & x^{3} - 7 = 0
+\end{eqnarray*}
+
+Her har vi nå en fin $f(x)$ som vi kan derivere og få $f'(x) =
+3x^{2}$. Så er det bare å sette inn i formelen og vips er vi i mål.
+
+\subsubsection{Secant Method for Solving Equations $f(x) = 0$}
+\begin{equation}
+x_{n+1} = x_{n} - f(x_{n}) \frac{x_{n} - x_{n-1}}{f(x_{n}) -
+f(x_{n-1})}
+\end{equation}
+
+Sekantmetoden er mer eller mindre lik Newtons metode, men den
+deriverte i uttrykket er, som vi ser av formelen over, byttet ut med
+et uttrykk for sekanten mellom punktene ($x_{n}, f(x_{n})$) og
+($x_{n-1}, f(x_{n-1})$).
+
+
+\subsection{Interpolation [K17.3]}
+Målet med de følgende interpolasjonsmetodene er å finne et polynom,
+$p_{n}$, som passer inn med et sett gitte punktet.  Motivasjonen for å
+finne et polynom er at dette er kontinuerlig og fint og både kan
+deriveres og integreres.
+
+\subsubsection{Lagrange Interpolation}
+
+\begin{equation}
+f(x) = p_{n}(x) = \sum_{k=0}^{n}L_{k}(x)f_{k} =
+\sum_{k=0}^{n}\frac{l_{k}(x)}{l_{k}(X_{k})}f_{k}
+\end{equation}
+
+Over er den generelle formelen for Lagrangeinterpolasjon, og under
+følger måten man faktisk må sette det opp på når man skal gjøre
+oppgaver.
+
+\begin{eqnarray*}
+p_{1}(x) & = & L_{0}(x)f_{0} + L_{1}(x)f_{1} \\
+& = & \frac{x - x_{1}}{x_{0} - x_{1}} \times f_{0} + \frac{x -
+x_{0}}{x_{1} - x_{0}} \times f_{1}
+\end{eqnarray*}
+
+For $p_{1}$ er det to ledd i uttrykket (og altså to $L$-uttrykk,
+$L_{0}$ og $L_{1}$), for $p_{2}$ er det tre, osv.  Disse
+$L$-uttrykkene settes opp som følger:
+
+\begin{itemize}
+\item Hvis det er 2 $L$-uttrykk, skal det være ett ``ledd'' i teller
+og ett i nevner, hvis det er 3 $L$-uttrykk, skal det være to ``ledd''
+i teller og to i nevner, osv.
+\item Telleren skal være $\prod (x - x_{j})$ der $x_{j}$ er alle
+verdier fra 0 til $n$, unntatt det tallet i rekket som vi lager en
+$L$-verdi for akkurat nå.  Altså: Gitt at vi har tre ledd (0, 1 og 2),
+så skal vi for $L_{1}$ ha telleren $(x - x_{0})(x - x_{2})$.  Vi
+hopper over 1, men tar alle de andre.
+\item Nevneren i den tilsvarende situasjonen vil være $(x_{1} -
+x_{0})(x_{1} - x_{2})$.  Altså omtrent som telleren, men vi bruker
+$x_{0}$ i stedet for bare $x$.
+\end{itemize}
+
+Se f.eks. eksempel 1 side 850 i Kreyzsig.
+
+En ulempe med Lagrange er at vi må lage et helt nytt uttrykk så fort
+vi skal kjøre en iterasjon til.
+
+
+\subsubsection{Newton's Divided Difference Interpolation}
+
+\begin{eqnarray*}
+f(x) & \approx & f_{0} + (x - x_{0})f[x_{0}, x_{1}] + (x - x_{0})(x -
+x_{1})f[x_{0}, x_{1}, x_{2}] + \cdots \\
+& & + (x - x_{0})(x - x_{1})\cdots (x - x_{n-1}f[x_{0}, \cdots, x_{n}]
+\end{eqnarray*}
+
+Det viktige her (og for de to etterfølgende metodene) er å sette opp
+en differansetabell (se tabellen under, som er hentet fra side 855 i
+Kreyszig).  Poenget med denne tabellen er å sette inn oppgitte
+$x$-verdier med tilhørende $f(x)$ (de to kolonnene lengst til
+venstre).  Kolonne 3 er $f[x_{0}, x_{1}]$ fra uttrykket over, kolonne
+4 er $f[x_{0}, x_{1}, x_{2}]$, osv.
+
+Verdiene i kolonne 3 regnes ut ved å ta differansen av $f(x)$-verdiene
+i kolonnen til venstre og dele på differansen av de tilhørende
+$x$-verdiene.  Pass på at du tar rette $x$-verdier.  Det skal alltid
+være ``ytterverdiene''.  I kolonne 5 skal du feks. ta differansen
+mellom de to tallene fra kolonne 4, men dele på differansen mellom
+11.0 og 8.0.
+
+\begin{tabular}{rc|ccc}
+\hline
+$x_{j}$ & $f_{j} = f(x_{j})$ & $f[x_{j}, x_{j+1}]$ & $f[x_{j},
+x_{j+1}, x_{j+2}]$ & $f[x_{j} \cdots x_{j+3}]$ \\
+\hline
+
+8.0  & 2.079 442 &           &            &           \\
+     &           & 0.117 783 &            &           \\
+9.0  & 2.197 225 &           & -0.006 433 &           \\
+     &           & 0.108 134 &            & 0.000 411 \\
+9.5  & 2.251 292 &           & -0.005 200 &           \\
+     &           & 0.097 735 &            &           \\
+11.0 & 2.397 895 &           &            &           \\
+\hline
+\end{tabular}
+
+Så er det bare å sette verdiene inn i uttrykket over.
+
+\begin{eqnarray*}
+f(x) \approx p_{3}(x) & = & f_{0} + (x - x_{0})f[x_{0}, x_{1}] + (x -
+x_{0})(x - x_{1})f[x_{0}, x_{1}, x_{2}] +\\
+& & (x - x_{0})(x - x_{1})(x - x_{2})f[x_{0}, x_{1}, x_{2}, x_{3}] \\
+& = & 2.079 442 + (x - 8.0)\times 0.117 783 + (x - 8.0)(x - 9.0)
+\times\\
+& & (-0.006 433) + (x - 8.0)(x - 9.0)(x - 9.5) \times 0.000 411
+\end{eqnarray*}
+
+Så er det bare å sette inn verdien for $x$, feks. 9.2, og regne ut.
+
+Det fine med denne metoden er at vi slipper å lage et helt nytt
+uttrykk når vi skal kjøre en iterasjon til.  Vi kan bare legge til et
+nytt ledd til det gamle uttrykket, og kjøre på.
+
+I tillegg er det også verdt å merke seg at den takler tilfeldig
+avstand mellom punktene, sånn som rekken 8.0, 9.0, 9.5, 11.0 over.
+
+\subsubsection{Newton's Forward Difference Formula}
+\begin{eqnarray*}
+f(x) \approx p_{n}(x) & = & \sum_{s=0}^{n} \binom{r}{s}
+\Delta^{s}f_{0} \\
+& = & f_{0} + r\Delta f_{0} + \frac{r(r - 1)}{2!} + \cdots + \\
+& & \frac{r(r - 1)\cdots (r - n + 1)}{n!}\Delta^{n}f_{0}
+\end{eqnarray*}
+
+For praktisk utregning er det viktig å merke seg at $r = \frac{x -
+x_{0}}{h}$, hvor $x$ er verdien vi skal finne, $x_{0}$ er det første
+punktet vi har i det oppgittet datasettet vårt og $h$ er steglengden
+(avstanden mellom hvert datapunkt).
+
+For utregning i praksis setter man opp en differansetabell og setter
+inn tallene fra den i uttrykket.  Se side 857 i Kreyzsig for et
+eksempel.  Husk for all del å trekke fra $1$ mer i $r$ i telleren for
+hvert ledd.  De mystiske $\Delta^{s}$-uttrykkene er tallene fra
+differansetabellen, som lett vist på side 857.
+
+Denne metoden virker kun på datasett hvor det er lik avstand mellom
+datapunktene.
+
+\subsubsection{Newton's Backward Difference Formula}
+Metoden er i grunnen helt lik den forrige, men i $r$-uttrykkene i
+telleren legger vi til $1$ for hver gang i stedet for å trekke fra.
+Se eksempel side 858.
+
+\subsection{Numerical Integration and Differentiation [K17.5]}
+
+\subsubsection{Rectangular Rule. Trapezoidal Rule}
+
+Rectangular rule først:
+\begin{equation}
+J = \int_{a}^{b}f(x)dx \approx h[f(x_{1}*) + f(x_{2}*) + \cdots +
+f(x_{n}*)]
+\end{equation}
+
+Hvor $h$ i uttrykket over er $\frac{b - a}{n}$.
+
+
+Så trapezoidal rule:
+\begin{equation}
+J = \int_{a}^{b}f(x)dx \approx h[\frac{1}{2}f(a) + f(x_{1}) + f(x_{2})
++ \cdots + f(x_{n-1} + \frac{1}{2}f(b)]
+\end{equation}
+
+\subsubsection{Simpson's Rule of Integration}
+
+\begin{equation}
+\int_{a}^{b}f(x)dx \approx \frac{h}{3}(f_{0} + 4f_{1} + 2f_{2} +
+4f_{3} + \cdots 2f_{2m-2} + 4f_{2m-1} + f_{2m})
+\end{equation}
+
+hvor $h = (b-a)/2m$ og $f_{j} = f(x_{j})$.
+
+Denne er også oppgitt i Rottmann, side 174.
+
+
+\subsubsection{Adaptive Integration}
+
+Adaptiv integrering vil si at man prøver å tilpasse $h$ til
+forandringen i $f(x)$; lave verdier av $h$ der forandringen i $f(x)$
+er stor og store verdier av $h$ der forandringen i $f(x)$ er liten.
+Konseptet kan brukes sammen med hvilken som helst metode for numerisk
+integrasjon.  Se side 876 i Kreyszig for et eksempel.
+
+\newpage
+\section{Numerical Methods in Linear Algebra [K18]}
+%\subsection{Linear Systems: Gauss Elimination [K18.1]}
+%Det her er i grunnen bare teoretisk bakgrunnsstoff om hvordan vanlig
+%Gauss-eliminasjon av matriser fungerer.
+
+\subsection{Linear Systems: LU-Factorization, Matrix Inversion [K18.2]}
+Cluet med de følgende metodene er å faktorisere en matrise $A$ til de
+to matrisene $L$ og $U$, henholdsvis \textit{lower triangular} og
+\textit{upper triangular}. 
+
+Vi bruker her eksempel K18.2.1 (side 895-896) for å illustrere de
+generelle poengene ved metodene.
+
+\begin{equation*}
+A = \left[ \begin{array}{ccc}
+3 & 5 & 2 \\
+0 & 8 & 2 \\
+6 & 2 & 8 \end{array} \right]
+= LU =
+\left[ \begin{array}{ccc}
+1 & 0 & 0 \\
+m_{21} & 1 & 0 \\
+m_{31} & m_{32} & 1 \end{array} \right]
+\left[ \begin{array}{ccc}
+u_{11} & u_{12} & u_{13} \\
+0 & u_{22} & 2u_{23} \\
+0 & 0 & u_{33} \end{array} \right]
+\end{equation*}
+
+Over ser vi rent visuelt hvor de to matrisene har fått navnene sine
+fra. Videre kan vi også sette opp følgende uttrykk:
+
+\begin{equation}
+Ax = LUx = b
+\end{equation}
+
+
+
+\subsubsection{Doolittle's Method}
+Denne metoden går ut på at vi tar det generelle grunnlaget fra forrige
+avsnitt, og sier følgende:
+
+\begin{equation}
+Ly = b\text{, hvor } y = Ux
+\end{equation}
+
+Vi løser så først for $y$ og deretter for $x$.  Se resten av eksempel
+K18.2.1 for en fullstendig gjennomgang av metoden.
+
+\subsubsection{Crout's Method}
+Denne metoden er helt like Doolittles metode, rent bortsett fra at det
+er matrisen $U$ som har en diagonal bestående av kun enere.
+
+\subsubsection{Cholesky's Method}
+Choleskys metode er svært lik de to forrige metodene, men den lille
+forskjellen her er at $U = L^{T}$.  Se Kreyszig side 897 for eksempler.
+
+\subsection{Linear Systems: Solution by Iteration [K18.3]}
+Metodene i forrige kapittel er såkalte \textit{direkte metoder}, som
+krever en rekke utregninger før det til slutt kommer ut et svar.
+Metodene i dette kapittelet er såkalte \textit{indirekte} eller
+\textit{iterative metoder}, altså metoder hvor vi begynner med et
+estimat og får mer og mer nøyaktige svar for hver runde med
+utregnigner vi foretar.
+
+Iterative metoder brukes hvis konvergenshastigheten er stor eller
+systemene inneholder svært mange nuller.
+
+\subsubsection{Gauss-Seidel Iteration Method}
+Trikset i denne metoden er å skrive om et likningsett av typen
+
+\begin{equation*}
+\begin{array}{rcrcrcrcr}
+x_{1}      & - & 0.25x_{2} & - & 0.25x_{3} &   &           & = & 50 \\
+-0.25x_{1} & + & x_{2}     &   &           & - & 0.25x_{4} & = & 50 \\
+-0.25x_{1} &   &           & + &     x_{3} & - & 0.25x_{4} & = & 25 \\
+           & - & 0.25x_{2} & - & 0.25x_{3} & + &     x_{4} & = & 25 \\
+\end{array}
+\end{equation*}
+
+til formen
+
+\begin{equation*}
+\begin{array}{rcrcrcrcrcr}
+x_{1} &=&           && 0.25x_{2} &+& 0.25x_{3} & &           &+& 50 \\
+x_{2} &=& 0.25x_{1} &&           & &           &+& 0.25x_{4} &+& 50 \\
+x_{3} &=& 0.25x_{1} &&           & &           &+& 0.25x_{4} &+& 25 \\
+x_{4} &=&           && 0.25x_{2} &+& 0.25x_{3} & &           & & 25
+\end{array}
+\end{equation*}
+
+Deretter velger vi estimater for alle $x$-verdiene, feks. $x_{1}^{(0)}
+= 100, x_{2}^{(0)} = 100, x_{3}^{(0)} = 100, x_{4}^{(0)} = 100$, og
+begynner den iterative prosessen.
+
+Først regner vi ut en ny $x_{1}$, $x_{1}^{(1)}$, setter inn denne for
+$x_{1}$ i tabellen, regner ut en ny $x_{2}$, $x_{2}^{(2)}$, setter inn denne
+i tabellen, osv.  Slik fortsetter vi til ønsket presisjon er oppnådd
+eller antallet ønskede iterasjoner er gjennomført.
+
+
+\subsubsection{Jacobi Iteration}
+Jacobi-iterasjon er helt lik Gauss-Seidel-iterajon, med ett bittelite
+unntak; ingen av de utregnede $x$-verdiene benyttes før man har
+gjennomført en hel iterasjon (altså regnet ut samtlige $x$-verdier).
+
+\newpage
+\section{Numerical Methods for Differential Equations [K19]}
+\subsection{Methods for First-Order Differentical Equations [K19.1]}
+Disse metodene er såkalte ``steg for steg''-metoder, hvor vi først
+regner ut $y_{0} = y(x_{0})$ og deretter fortsetter å regne ut verdier
+for $y(x)$ ved $x$-punkter som følger:
+
+\begin{eqnarray*}
+x_{1} & = & x_{0} + h \\
+x_{2} & = & x_{0} + 2h \\
+x_{3} & = & x_{0} + 3h \\
+      & \vdots & \\
+x_{N} & = & x_{0} + Nh
+\end{eqnarray*}
+
+\subsubsection{Euler Method (Euler-Cauchy)}
+
+\begin{equation}
+y_{n+1} = y_{n} + hf(x_{n}, y_{n})
+\end{equation}
+
+
+\subsubsection{Improved Euler Method (Heun's Method)}
+I denne metoden regner vi først ut hjelpeverdien $y_{n+1}^{*}$,
+
+\begin{equation}
+y_{n+1}^{*} = y_{n} + hf(x_{n}, y_{n})
+\end{equation}
+
+og deretter den nye verdien,
+
+\begin{equation}
+y_{n+1} = y_{n} + \frac{1}{2}h\left[f(x_{n}, y_{n}) + f(x_{n+1},
+  y_{n+1}^{*})\right]
+\end{equation}
+
+\subsubsection{Runge-Kutta Methods}
+Metoden gir en løsning på initialverdiproblemet $y' = f(x, y),
+y(x_{0}) = y_{0}$ ved ekvidistante punkter, $x_{1} = x_{0} + h, x_{2}
+= x_{0} + 2h, \cdots, x_{N} = x_{0} + Nh$.
+
+Først regner vi ut fire hjelpeverdier, $k_{1}$, $k_{2}$, $k_{3}$ og
+$k_{4}$,
+
+\begin{eqnarray}
+k_{1} & = & hf(x_{n}, y_{n}) \\
+k_{2} & = & hf(x_{n} + \frac{1}{2}h, y_{n} + \frac{1}{2}k_{1}) \\
+k_{3} & = & hf(x_{n} + \frac{1}{2}h, y_{n} + \frac{1}{2}k_{2}) \\
+k_{4} & = & hf(x_{n} + h, y_{n} + k_{3}) \\
+\end{eqnarray}
+
+Deretter regner vi ut den nye verdien, $y_{n+1}$,
+
+\begin{equation}
+y_{n+1} = y_{n} + \frac{1}{6}(k_{1} + 2k_{2} + 2k_{3} + k_{4})
+\end{equation}
+
+
+\subsubsection{Runge-Kutta-Fehlberg}
+RKF kan umulig bli gitt på eksamen med mindre de oppgir formlene,
+simpelthen fordi det er alt for mange uinteressante koeffisienter å
+holde rede på.  Ikke minst vil det være et sant helvete å skulle
+gjennomføre metoden vha. en HP30S.
+
+
+\subsection{Methods for Systems and Higher Order Equations [K19.3]}
+%\subsubsection{Euler's Method for Systems}
+
+
+\subsubsection{Runge-Kutta Methods for Systems}
+Her brukes bare de samme formlene som i vanlig Runge-Kutta, men alt i
+alt er det likevel litt mer grisete.  Se eksempel K19.3.2 for en full
+gjennomgang av et faktisk regneeksempel.
+
+
+%\subsubsection{Runge-Kutta-Nyström Methods}
+
+%\subsection{Methods for Elliptic Partial Differential Equations [K19.4]}
+%\subsubsection{Difference Equations for the Laplace and Poisson Equations}
+%\subsubsection{Dirichlet Problem}
+%\subsubsection{ADI Method}
+
+%\subsection{Methods for Parabolic Equations [K19.6]}
+%\subsubsection{Crank-Nicolson Method}
+
+\newpage
+\section{Andre metoder}
+\subsection{Newtons metode for systemer av ikke-lineære likninger}
+Newtons (eller Newton-Raphsons) metode er en numerisk metode for å
+finne numeriske løsninger av et system av ligninger:
+
+\begin{eqnarray*}
+f_{1}(x_{1}, \dots , x_{n}) & = & 0 \\
+f_{2}(x_{1}, \dots , x_{n}) & = & 0 \\
+& \vdots & \\
+f_{n}(x_{1}, \dots , x_{n}) & = & 0
+\end{eqnarray*}
+
+Dette er egentlig ikke en spesielt komplisert metode, men
+pensumnotatet som prøver å beskrive metoden er ikke akkurat
+definisjonen på forståelig.  Her følger derfor en mer ``rett på
+sak''-fremgangsmåte for å faktisk løse oppgaver av denne typen.  Det
+gjør vi like gjerne med et eksempel.
+
+Ifølge faglærer har det hendt at det har blitt gitt systemer med tre
+likninger til eksamen, så det er kanskje en fordel å om nødvendig
+friske opp matrisekunnskapene sine til å dekke også denslags.
+
+\textbf{Eks: Eksamen, august 2003, oppgave 7c}
+
+Gjør én iterasjon med Newtons metode på det ikke-lineære
+likningssystemet
+
+\begin{eqnarray*}
+10y_{1} - y_{2} - 20 & = & 0 \\
+y_{1} + (9 + y_{1}^{2})y_{2} & = & 0
+\end{eqnarray*}
+
+Bruk $y_{1} = 2$ og $y_{2} = 0$ som startverdier.
+
+\textbf{Løsning}
+
+Først og fremst må man ha klart for seg hva vi er ute etter å finne,
+og det er de neste verdiene av $y_{1}$ og $y_{2}$.  Vi kaller
+initialverdiene for $y_{1,0}$ og $y_{2,0}$, og skal finne $y_{1,1} =
+y_{1,0} + \Delta y_{1,0}$ og $y_{2,1} = y_{2,0} + \Delta y_{2,0}$.
+
+Det første vi må gjøre er å sette opp en Jacobimatrise for
+likningssettet, og den er på formen,
+
+\begin{eqnarray*}
+J = \left[
+\begin{array}{ccc}
+\frac{\partial f_{1}}{\partial x_{1}} & \cdots & \frac{\partial
+  f_{1}}{\partial x_{n}} \\
+\vdots & \ddots & \\
+\frac{\partial f_{n}}{\partial x_{1}} & \cdots & \frac{\partial
+  f_{n}}{\partial x_{n}}
+\end{array}
+\right]
+\end{eqnarray*}
+
+Som vi ser øker $x$-verdiene langs den horisontale aksen og f-verdiene
+langs den vertikale.  Vi ser altså at det er snakk om å derivere
+likning $f_{n}$ med hensyn på variabel $x_{n}$ for de forskjellige
+cellene/elementene i matrisen.
+
+I vårt tilfelle blir dette
+\begin{eqnarray*}
+J(y_{1,0}, y_{2,0}) = \left[
+\begin{array}{cc}
+10 & -1 \\
+1 + 2y_{1}y_{2} & 9 + y_{1}^{2}
+\end{array}
+\right]
+\end{eqnarray*}
+
+For å finne $y_{1,1}$ og $y_{2,1}$ må vi så løse likningen
+\begin{equation*}
+J(y_{1,0}, y_{2,0})
+\left(
+\begin{array}{cc}
+\Delta y_{1,0}\\
+\Delta y_{2,0}
+\end{array}
+\right)
+= - \left(
+\begin{array}{cc}
+10y_{1,0} - y_{2,0} -20 \\
+y_{1,0} + (9 + y_{1,0}^{2})y_{2,0}
+\end{array}
+\right)
+\end{equation*}
+med hensyn på $(\Delta y_{1,0}\ \Delta y_{2,0})^{\text{T}}$,
+
+Vi setter så inn initialverdiene våre, altså tallverdier for $y_{1,0}$
+og $y_{2,0}$, og får
+\begin{equation*}
+\left(
+\begin{array}{cc}
+10 & -1 \\
+1  & 13
+\end{array}
+\right)
+\left(
+\begin{array}{cc}
+\Delta y_{1,0}\\
+\Delta y_{2,0}
+\end{array}
+\right)
+= -
+\left(
+\begin{array}{cc}
+0\\
+2
+\end{array}
+\right)
+\end{equation*}
+
+
+Dette gir videre
+\begin{eqnarray*}
+\left(
+\begin{array}{cc}
+\Delta y_{1,0}\\
+\Delta y_{2,0}
+\end{array}
+\right)
+& = & -
+\left(
+\begin{array}{cc}
+10 & -1 \\
+1  & 13
+\end{array}
+\right)^{-1}
+\left(
+\begin{array}{cc}
+0\\
+2
+\end{array}
+\right)\\
+&&\\
+&&
+-\frac{1}{ad-bc}
+\left(
+\begin{array}{cc}
+d & -b \\
+-c  & a
+\end{array}
+\right)
+\left(
+\begin{array}{cc}
+0\\
+2
+\end{array}
+\right)\\
+&&\\
+&&
+-\frac{1}{131}
+\left(
+\begin{array}{cc}
+13 & 1 \\
+-1  & 10
+\end{array}
+\right)
+\left(
+\begin{array}{cc}
+0\\
+2
+\end{array}
+\right)
+\end{eqnarray*}
+
+Enkel matrisemultiplikasjon gir $(13 \times 0) + (1 \times 2) = 2$ og
+$(-1 \times 0) + (10 \times 2) = 20$, vi multipliserer videre med
+faktoren $-\frac{1}{131}$ og ender opp med at
+\begin{equation*}
+\left(
+\begin{array}{cc}
+\Delta y_{1,0}\\
+\Delta y_{2,0}
+\end{array}
+\right)
+= -
+\left(
+\begin{array}{c}
+2\\
+20
+\end{array}
+\right)
+\end{equation*}
+
+Det aller siste vi må gjøre er å regne ut de nye verdiene $y_{1,1}$ og
+$y_{2,1}$:
+\begin{eqnarray*}
+y_{1,1} = y_{1,0} + \Delta y_{1,0} = 2 - 0,02 & = &
+\underline{\underline{1,98}}\\
+y_{2,1} = y_{2,0} + \Delta y_{2,0} = 0 - 0,15 & = &
+\underline{\underline{-0,15}}
+\end{eqnarray*}
+
+\end{document}
