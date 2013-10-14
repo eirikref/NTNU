@@ -1,0 +1,414 @@
+\documentclass[norsk, a4paper, 12pt, twoside, titlepage]{article}
+\usepackage{babel, alltt, amsmath, float, epsfig, enumerate,
+  graphicx, longtable, subfigure, amsfonts, tabularx, boxedminipage,
+  fancyheadings}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{makeidx}
+\usepackage{times}
+
+\pagestyle{fancyplain}
+
+\renewcommand{\sectionmark}[1]%
+	     {\markboth{#1}{}}
+
+\lhead[\fancyplain{}{\bfseries\thepage}]%
+      {\fancyplain{}{\bfseries\leftmark}}
+\rhead[\fancyplain{}{\bfseries\leftmark}]%
+      {\fancyplain{}{\bfseries\thepage}}
+\cfoot{}
+
+
+\makeindex
+
+\title{TFE4100 Kretsteknikk\\Formler og data}
+\author{Eirik Refsdal <eirikref@pvv.ntnu.no>}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+
+\newpage
+\section{Système International d'Unités}
+Det er kun oppgitt enheter som er relevante for kretsteknikk.
+
+\index{Strøm!SI-definisjon}
+\index{Ampere!SI-definisjon}
+\subsection{Grunnenheter}
+\begin{tabular}{|p{7.5cm}|p{3cm}|p{3cm}|}
+\hline
+Kvantitet & Enhet & Symbol \\
+\hline
+Lengde & Meter & m \\
+Masse & Kilogram & kg \\
+Tid & Sekund & s \\
+Elektrisk strøm & Ampere & A \\
+Termodynamisk temperatur & Grader kelvin & K \\
+Lysintensitet & Candela & cd \\
+
+\hline
+\end{tabular}
+
+
+\index{Energi!SI-definisjon}
+\index{Joule!SI-definisjon}
+\index{Effekt!SI-definisjon}
+\index{Watt!SI-definisjon}
+\index{Ladning!SI-definisjon}
+\index{Coulomb!SI-definisjon}
+\index{Spenning!SI-definisjon}
+\index{Volt!SI-definisjon}
+\index{Motstand!SI-definisjon}
+\index{Ohm!SI-definisjon}
+\index{Konduktans!SI-definisjon}
+\index{Siemens!SI-definisjon}
+\index{Kapasitans!SI-definisjon}
+\index{Farad!SI-definisjon}
+\index{Induktans!SI-definisjon}
+\index{Henry!SI-definisjon}
+\subsection{Avledede enheter}
+\begin{tabular}{|p{7.5cm}|p{3cm}|p{3cm}|}
+\hline
+Kvantitet & Enhet & Formel \\
+\hline
+Frekvens & Hertz (Hz) & $s^{-1}$ \\
+Kraft & Newton (N) & $kg \times m/s^{2}$ \\
+Energi eller arbeid & Joule (J) & $N \times m$ \\
+Kraft/energi/effekt & Watt (W) & $J/s$ \\
+Elektrisk ladning & Coulomb (C) & $A \times s$ \\
+Elektrisk spenning & Volt (V) & $W/A$ \\
+Elektrisk motstand & Ohm ($\Omega$) & $V/A$ \\
+Elektrisk konduktans & Siemens (S) & $A/V$ \\
+Elektrisk kapasitans & Farad (F) & $C/V$ \\
+Magnetisk fluks & Weber (Wb) & $V \times s$ \\
+Induktans & Henry (H) & $Wb/A$ \\
+\hline
+\end{tabular}
+
+
+\newpage
+\section{Tierpotenser}
+\begin{tabular}{|p{7.5cm}|p{3cm}|p{3cm}|}
+\hline
+Prefiks & Symbol & Potens \\
+\hline
+atto & a & $10^{-18}$ \\
+femto & f & $10^{-15}$ \\
+pico & p & $10^{-12}$ \\
+nano & n & $10^{-9}$ \\
+mikro & $\mu$ & $10^{-6}$ \\
+milli & m & $10^{-3}$ \\
+centi & c & $10^{-2}$ \\
+deka & d & $10^{-1}$ \\
+desi & da & $10$ \\
+hekto & h & $10^{2}$ \\
+kilo & k & $10^{3}$ \\
+mega & M & $10^{6}$ \\
+giga & G & $10^{9}$ \\
+tera & T & $10^{12}$ \\
+\hline
+\end{tabular}
+
+
+\newpage
+\section{Viktige tall}
+\index{Elementærladning}
+\begin{tabular}{|p{8.5cm}|p{5cm}|}
+\hline
+Beskrivelse & Verdi \\
+\hline
+Elementærladningen & $\pm 1.6022 \times 10^{-19} C$ \\
+\hline
+\end{tabular}
+
+
+\newpage
+\section{Definisjoner}
+\index{Seriekobling!definisjon}
+\subsection{Seriekobling}
+To eller flere kretselementer sies å være koblet i serie dersom samme
+strøm går gjennom hvert av dem.
+
+\index{Parallellkobling!definisjon}
+\subsection{Parallellkobling}
+To eller flere kretselementer sies å være koblet i parallell dersom
+det er samme spenning over hvert av dem.
+
+
+\newpage
+\section{Strøm}
+\index{Strøm}
+\index{Strøm!definisjon}
+\subsection{Definisjon}
+\begin{equation}
+i = \frac{dq}{dt},
+\end{equation}
+
+\begin{eqnarray*}
+i & \mbox{---} & \mbox{strøm i ampere (A)} \\
+q & \mbox{---} & \mbox{ladning i coulomb (C)} \\
+t & \mbox{---} & \mbox{tid i sekunder (s)}
+\end{eqnarray*}
+
+\bigskip
+
+\begin{equation}
+1 \mbox{ ampere} = \frac{\mbox{1 coulomb}}{\mbox{sekund}}
+\end{equation}
+
+\index{Strøm!Kirchoffs lov}
+\index{Kirchhoff!strømlov}
+\subsection{Kirchhoffs strømlov}
+Summen av strømmer inn og ut av en node er lik null.
+\begin{equation}
+\sum_{n=1}^{N}i_{n} = 0
+\end{equation}
+
+\index{Strøm!Ohms lov}
+\index{Ohms lov!strøm}
+\subsection{Ohms lov}
+\begin{equation}
+i = \frac{v}{R}
+\end{equation}
+
+\begin{eqnarray*}
+i & \mbox{---} & \mbox{strøm i ampere (A)} \\
+v & \mbox{---} & \mbox{spenning i volt (V)} \\
+R & \mbox{---} & \mbox{motstand i ohm (R)}
+\end{eqnarray*}
+
+\index{Strømdeler}
+\index{Strøm!deling}
+\subsection{Strømdeler}
+\begin{equation}
+i_{n} = \frac{\frac{1}{R_{n}}}{\frac{1}{R_{1}} + \frac{1}{R_{2}} + \cdots + \frac{1}{R_{n}} + \cdots + \frac{1}{R_{N}}} i_{S}
+\end{equation}
+
+
+\newpage
+\section{Spenning}
+\index{Spenning}
+\index{Spenning!definisjon}
+\subsection{Definisjon}
+\begin{equation}
+v = \frac{dw}{dq},
+\end{equation}
+
+\begin{eqnarray*}
+v & \mbox{---} & \mbox{spenning i volt (V)} \\
+w & \mbox{---} & \mbox{energi i watt (W)} \\
+q & \mbox{---} & \mbox{ladning coulomb (C)}
+\end{eqnarray*}
+
+\bigskip
+
+\begin{equation}
+1 \mbox{ volt} = \frac{\mbox{1 joule}}{\mbox{coulomb}}
+\end{equation}
+
+\index{Spenning!Kirchhoffs lov}
+\index{Kirchhoff!spenningslov}
+\subsection{Kirchhoffs spenningslov}
+Summen av spenninger i en lukket krets er lik null.
+\begin{equation}
+\sum_{n=1}^{N}v_{n} = 0
+\end{equation}
+
+
+\index{Spenning!Ohms lov}
+\index{Ohms lov!spenning}
+\subsection{Ohms lov}
+\begin{equation}
+v = iR
+\end{equation}
+
+\begin{eqnarray*}
+v & \mbox{---} & \mbox{spenning i volt (V)} \\
+i & \mbox{---} & \mbox{strøm i ampere (A)} \\
+R & \mbox{---} & \mbox{motstand i ohm (R)}
+\end{eqnarray*}
+
+\index{Spenningsdeler}
+\index{Spenning:deler}
+\subsection{Spenningsdeler}
+\begin{equation}
+v_{n} = \frac{R_{n}}{R_{1} + R_{2} + \cdots + R_{n} + \cdots + R_{N}} v_{S}
+\end{equation}
+
+
+
+
+\newpage
+\section{Effekt}
+\index{Effekt}
+\index{Effekt!definisjon}
+\subsection{Definisjon}
+
+\begin{equation}
+p = \frac{dw}{dt} = \left(\frac{dw}{dq}\right) \left(\frac{dq}{dt}\right) = vi,
+\end{equation}
+
+\begin{eqnarray*}
+p & \mbox{---} & \mbox{effekt i watt (W)} \\
+w & \mbox{---} & \mbox{energi i joule (J)} \\
+t & \mbox{---} & \mbox{tid i sekunder (s)} \\
+q & \mbox{---} & \mbox{ladning i coulomb (C)} \\
+v & \mbox{---} & \mbox{spenning i volt (V)} \\
+i & \mbox{---} & \mbox{strøm i ampere (A)}
+\end{eqnarray*}
+
+\bigskip
+
+\begin{equation}
+1 \mbox{ watt} = \frac{\mbox{1 joule}}{\mbox{sekund}}
+\end{equation}
+
+\subsection{Omskrivinger vha. Ohms lov}
+\begin{equation}
+p = (iR)i = i^{2}R
+\end{equation}
+
+\begin{equation}
+p = v \left(\frac{v}{R}\right) = \frac{v^{2}}{R}
+\end{equation}
+
+\subsection{Uttrykt vha. konduktans}
+\begin{equation}
+p = \frac{i^{2}}{G}
+\end{equation}
+
+\begin{equation}
+p = v^{2}G
+\end{equation}
+
+
+\newpage
+\section{Motstand}
+\index{Motstand}
+\index{Motstand!definisjon}
+\index{Ohms lov}
+\subsection{Definisjon (Ohms lov)}
+\begin{equation}
+R = \frac{v}{i}
+\end{equation}
+
+\begin{eqnarray*}
+R & \mbox{---} & \mbox{motstand i ohm (R)} \\
+v & \mbox{---} & \mbox{spenning i volt (V)} \\
+i & \mbox{---} & \mbox{strøm i ampere (A)}
+\end{eqnarray*}
+
+\bigskip
+
+\begin{equation}
+1 \mbox{ ohm} = \frac{\mbox{1 volt}}{\mbox{ampere}}
+\end{equation}
+
+\index{Motstandsevne}
+\subsection{Moststandsevne}
+Et materiales motstandsevne er oppgitt med symbolet $\rho$.
+For et sylinderformet legeme har vi,
+\begin{equation}
+R = \frac{l}{\sigma A}
+\end{equation}
+
+\begin{eqnarray*}
+R & \mbox{---} & \mbox{motstand i ohm ($\omega$)} \\
+l & \mbox{---} & \mbox{legemets lengde i meter (m)} \\
+\sigma & \mbox{---} & \mbox{legemets ledeevne} \\
+A & \mbox{---} & \mbox{legemets tverrsnitt i kvadratmeter ($m^{2}$)}
+\end{eqnarray*}
+
+\index{Motstand!i seriekobling}
+\index{Seriekobling!beregning av motstand}
+\subsection{Motstander i serie}
+\begin{equation}
+R_{eq} = \sum_{n=1}^{N}R_{n}
+\end{equation}
+
+\index{Motstand!i parallellkobling}
+\index{Parallellkobling!beregning av motstand}
+\subsection{Motstander i parallell}
+\begin{equation}
+R_{eq} = \frac{1}{\frac{1}{R_{1}} + \frac{1}{R_{2}} + \cdots + \frac{1}{R_{N}}}
+\end{equation}
+
+
+
+\newpage
+\section{Konduktans}
+\index{Konduktans}
+\index{Konduktans!definisjon}
+\subsection{Definisjon}
+\begin{equation}
+G = \frac{1}{R}
+\end{equation}
+
+\begin{eqnarray*}
+G & \mbox{---} & \mbox{konduktans i siemens (S)} \\
+R & \mbox{---} & \mbox{motstand i ohm (R)} 
+\end{eqnarray*}
+
+\index{Ledeevne}
+\subsection{Ledeevne}
+Et materiales ledeevne er oppgitt ved symbolet $\sigma$.
+
+
+\newpage
+\section{Wheatstone bridge}
+\index{Wheatstone bridge}
+\subsection{Spenningsforskjell mellom node a og b}
+
+\begin{equation}
+v_{ab} = v_{a} - v_{b} = v_{s} \left(\frac{R_{2}}{R_{1} + R_{2}} -
+\frac{R_{x}}{R_{3} + R_{x}}\right)
+\end{equation}
+
+\subsection{Utregning av $R_{x}$}
+Broen er i balanse først når strømmen mellom node a og node b er null,
+hvilket vil si at begge nodene har samme spenning/potensiale.
+
+\begin{equation}
+R_{x} = \frac{R_{2}}{R_{1}}R_{3}
+\end{equation}
+
+
+\newpage
+\index{$\Delta$-til-Y}
+\section{$\Delta$-til-Y-ekvivalenter}
+
+\subsection{$\Delta$-til-Y}
+
+\begin{equation}
+R_{1} = \frac{R_{b}R_{c}}{R_{a} + R_{b} + R_{c}}
+\end{equation}
+
+\begin{equation}
+R_{2} = \frac{R_{c}R_{a}}{R_{a} + R_{b} + R_{c}}
+\end{equation}
+
+\begin{equation}
+R_{3} = \frac{R_{a}R_{b}}{R_{a} + R_{b} + R_{c}}
+\end{equation}
+
+\index{Y-til-$\Delta$}
+\subsection{Y-til-$\Delta$}
+
+\begin{equation}
+R_{a} = \frac{R_{1}R_{2} + R_{2}R_{3} + R_{3}R_{1}}{R_{1}}
+\end{equation}
+
+\begin{equation}
+R_{b} = \frac{R_{1}R_{2} + R_{2}R_{3} + R_{3}R_{1}}{R_{2}}
+\end{equation}
+
+\begin{equation}
+R_{c} = \frac{R_{1}R_{2} + R_{2}R_{3} + R_{3}R_{1}}{R_{3}}
+\end{equation}
+
+
+\newpage
+\printindex
+\end{document}

@@ -1,0 +1,632 @@
+\documentclass[norsk, a4paper, 12pt, twoside, titlepage]{article}
+\usepackage{babel, alltt, amsmath, float, epsfig, enumerate,
+  graphicx, longtable, subfigure, amsfonts, fancybox, boxedminipage,
+  fancyheadings, pifont, calc}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{makeidx}
+\usepackage{times}
+
+\pagestyle{fancyplain}
+
+\renewcommand{\sectionmark}[1]%
+	     {\markboth{#1}{}}
+
+\newcounter{local}\renewcommand{\labelenumi}
+	   {\setcounter{local}{171+\value{enumi}}%
+	     \ding{\value{local}}}
+
+\lhead[\fancyplain{}{\bfseries\thepage}]%
+      {\fancyplain{}{\bfseries\leftmark}}
+\rhead[\fancyplain{}{\bfseries\leftmark}]%
+      {\fancyplain{}{\bfseries\thepage}}
+\cfoot{}
+
+\title{TFE4100 Kretsteknikk\\Kompendium}
+\author{Eirik Refsdal <eirikref@pvv.ntnu.no>}
+
+\makeindex
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\newpage
+
+\section{Introduksjon til elektriske kretser}
+Ladninger er bipolare, dvs. at elektriske effekter beskrives vha. både
+positive og negative ladninger.  Elektriske ladninger eksisterer i
+diskrete kvantiteter, $k \times q$, hvor $k$ er et heltall og $q$ er
+\index{Elementærladning}elementærladningen $\pm1.6022 \times 10^{-19} C$.
+
+\index{Strøm}
+\index{Strøm!definisjon}
+\subsection{Strøm}
+Strøm er definert som ladning per tidsenhet,
+
+\begin{equation}
+i = \frac{dq}{dt},
+\end{equation}
+hvor $i$ er strøm i ampere (A), $q$ er ladning i coulomb (C) og $t$ er
+tid i sekunder (s).
+
+Det er bestemt at positiv retning for strøm er den retningen som de
+positive ladningene beveger seg.
+
+\index{Kirchhoff!strømlov}
+Det kan kun gå strøm hvis vi har en lukket krets, og Kirchhoffs
+strømlov sier at summen av strømmer i kretsen er lik null.  Mer
+presist sier den at summen av strømmer inn og ut av en node er lik
+null,
+
+\begin{equation}
+\sum_{n=1}^{N}i_{n} = 0
+\end{equation}
+
+
+
+\subsection{Spenning}
+\label{Spenning}
+\index{Spenning}
+\index{Spenning!definisjon}
+Spenning er definert som energi per ladning,
+
+\begin{equation}
+v = \frac{dw}{dq},
+\end{equation}
+hvor $v$ er spenning i volt (V), $w$ er energi i joule (J) og $q$ er
+ladning i coulomb (C).
+
+Spenning er egentlig forskjell i potensiale mellom to punkter i en
+krets og angir energien som trengs for å flytte en ladning fra det ene
+punktet til det andre.
+
+\index{Jord}
+Spenningen i et punkt er forskjellen i potenisale mellom punktet selv
+og et definert nullnivå i kretsen, også omtalt som ``jord''.
+
+\index{Kirchhoff!spenningslov}
+Kirchhoffs spenningslov sier at summen av spenninger i en krets er lik null,
+\begin{equation}
+\sum_{n=1}^{N}v_{n} = 0
+\end{equation}
+
+
+\subsection{Strøm- og spenningskilder}
+Vi deler kilder langs to akser; en som skiller mellom strøm- og
+spenningskilder, og en som deler mellom uavhengige og avhengige kilder.
+
+\index{Kilde!strøm}
+\subsubsection{Strømkilder}
+En ideell strømkilde leverer en bestemt mengde strøm til kretsen den
+er en del av.  Spenningen som genereres av kilden er avhengig av
+kretsen den er en del av.
+
+\index{Kilde!spenning}
+\subsubsection{Spenningskilder}
+En ideell spenningskilde leverer en bestemt spenning mellom
+terminalene/endepunktene sine, uavhengig av mengden strøm som passer
+gjennom den.  Mengden strøm som kilden leverer til kretsen avhenger av
+kretsen selv.
+
+\index{Kilde!uavhengig}
+\subsubsection{Uavhengige kilder}
+Uavhengige kilder leverer den angitte mengden strøm eller spenning
+fullstendig uavhengig av kretsen de er en del av.
+
+\index{Kilde!avhengig}
+\subsubsection{Avhengige kilder}
+Avhengige kilder opererer som en funksjon av en annen strøm eller
+spenning i kretsen, og leverer feks. $A \times v_{x}$ volt, hvor
+$v_{x}$ er en annen spenning i kretsen.
+
+Vi har fire typer avhengige kilder; spenningskontrollerte
+spenningskilder, strømkontrollerte spenningskilder,
+spenningskontrollerte strømkilder og strømkontrollerte strømkilder.
+
+\index{Kilder!praktiske}
+\subsection{Praktiske strøm- og spenningskilder}
+Praktiske strøm- og spenningskilder har en indre motstand som
+begrenser den spenningen eller strømmen de kan levere til
+terminallasten.
+
+Gitt en spenningskilde som leverer spenningen $v_{s}$ til en krets med
+last $R_{L}$, vil strømmen som spenningskilden leverer til kretsen
+typisk måtte gå mot uendelig når $R_{L}$ går mot null, slik at
+spenningskilden får opprettholdt spenningen den skal levere.
+
+Dette er naturligvis ikke mulig i praksis, og er begrenset av den
+interne motstanden.
+
+En spenningskilde vil være seriekoblet med en minst mulig motstand,
+slik at spenningsfallet over motstanden skal bli minst mulig, mens en
+strømkilde vil være parallellkoblet med en størst mulig motstand,
+slik at strømtapet skal bli minst mulig.
+
+\index{Effekt}
+\subsection{Effekt}
+\index{Effekt!definisjon}
+Effekt er definert som arbeid per tidsenhet,
+
+\begin{equation}
+p = \frac{dw}{dt} = \left(\frac{dw}{dq}\right) \left(\frac{dq}{dt}\right) = vi,
+\end{equation}
+hvor $p$ er effekt i watt (W), $w$ er energi i joule (J), $t$ er tid i
+sekunder (s), $q$ er ladning i coulomb (C), $v$ er spenning i volt (V) og
+$i$ er strøm i ampere (A).
+
+I likhet med strøm og spenning kan effekt være både positiv og
+negativ, som kan tolkes dithen at en kilde feks. kan \emph{tilføre} energi,
+mens en last \emph{bruker} energi.
+
+Ved hjelp av Ohms lov (avsnitt \ref{Ohms_lov}) er alle følgende
+uttrykk gyldige for effekten som forbrukes av en motstand,
+
+\begin{equation}
+p = vi = i^{2}R = \frac{v^{2}}{R}
+\end{equation}
+
+
+\index{Passiv fortegnskonvensjon}
+\subsection{Passiv fortegnskonvensjon}
+Når referanseretningen for strømmen gjennom et kretselement er i samme
+retning som referansespenningsfallet over elementet, skal positivt
+fortegn brukes i uttrykk som relaterer spenningen til strømmen.
+Ellers skal negativt fortegn brukes.
+
+\index{i-v-karakteristikk}
+\subsection{\emph{i-v}-karakteristikk}
+En \emph{i-v}-karakteristikk gir en sammenheng mellom strøm og spenning for
+et gitt kretselement ved forskjellige strømmer og spenninger, og
+fremstilles gjerne grafisk.
+
+Ikke bare gir dette en karakteristikk av elementet, men det gjør det
+også lett å lese av strømmen gjennom elementet gitt en bestemt spenning
+(og motsatt), samt å lese effektbruk rett ut av grafen/tabellen.
+
+
+\subsection{Motstand og Ohms lov}
+\label{Ohms_lov}
+\index{Motstand}
+Strøm som går gjennom ledere eller andre kretselementer møter en viss
+motstand, som er bestemt av de elektriske egenskapene til materialet
+elementet er laget av. Denne motstanden forårsaker at energi vil bli
+brukt opp og ``forsvinne'' ut av kretsen i form av varme.
+
+En ideell motstand er en enhet som har lineære motstandsegenskaper i
+samsvar med Ohms lov,
+
+\index{Ohms lov}
+\begin{equation}
+v = iR,
+\end{equation}
+hvor $v$ er spenning i volt (V), $i$ er strøm i ampere (A) og $R$ er
+motstand i ohm ($\Omega$).
+
+
+Et materiales motstand er avhengig av dets \index{Motstandsevne}
+motstandsevne, $\rho$, som er den inverse av materialets
+\index{Ledningsevne}ledningsevne, $\sigma$. Av dette har man også
+definert \index{Konduktans}konduktans, som er den inverse av motstand,
+
+\index{Konduktans!definisjon}
+\begin{equation}
+G = \frac{1}{R},
+\end{equation}
+hvor $G$ er konduktans i siemens (S) og $R$ er motstand i ohm ($\Omega$).
+
+Følgelig kan også Ohms lov skrives om ved hjelp av konduktans,
+
+\begin{equation}
+i = Gv
+\end{equation}
+
+Det er også viktig å merke seg at Ohms lov kun er en empirisk
+tilnærming til de fysiske egenskapene til elektrisk ledende
+materialer, som typisk vil slå feil ved svært høye strømmer og/eller
+spenninger.
+
+
+\subsection{Åpne og kortsluttede kretser}
+Formelt sett er en
+\index{Kortslutning}\index{Krets!kortsluttet}kortslutning definert som
+et kretselement hvor spenningen over er lik null, uavhengig av
+strømmen som går gjennom.  Det vil i praksis si at motstanden til
+kretselementet går mot null, noe som er tilfelle for feks. mange
+ledninger og kabler.
+
+Tilsvarende er en \index{Krets!åpen}åpen krets definert som et
+kretselement hvor motstanden går mot uendelig.
+
+
+\subsection{Seriekobling}
+\index{Seriekobling}
+To eller flere kretselementer sies å være seriekoblet dersom samme
+strøm går gjennom hvert av dem.
+
+For motstander i serie kan man regne ut en ekvivalensmotstand,
+$R_{EQ}$, som er gitt ved,
+
+\begin{equation}
+R_{EQ} = \sum_{n=1}^{N}R_{n}
+\end{equation}
+
+
+\subsection{Parallellkobling}
+\index{Parallellkobling}
+To eller flere kretselementer sies å være parallellkoblet dersom samme
+spenning ligger over hvert av dem.
+
+For motstander i parallell kan man regne ut en ekvivalensmotstand,
+$R_{EQ}$, som er gitt ved,
+
+\begin{equation}
+R_{eq} = \frac{1}{\frac{1}{R_{1}} + \frac{1}{R_{2}} + \cdots + \frac{1}{R_{N}}}
+\end{equation}
+
+
+\subsection{Spenningsdeler}
+\index{Spenningsdeler}
+\index{Spenning!deling}
+Seriekoblede kretselementer vil ha samme strøm gjennom seg, men
+naturligvis ikke samme spenning over.  Spenningen over hvert enkelt av
+dem er gitt ut fra forholdet mellom dets egen motstand og den totale
+motstanden i seriekoblingen på følgende vis,
+
+\begin{equation}
+v_{n} = \frac{R_{n}}{R_{1} + R_{2} + \cdots + R_{n} + \cdots + R_{N}} v_{S}
+\end{equation}
+
+
+\subsection{Strømdeler}
+\index{Strømdeler}
+\index{Strøm!deling}
+Parallellkoblede kretselementer vil ha samme spenning over seg, men
+ikke uten videre samme strøm gjennom.  Strømmen gjennom hvert enkelt
+av dem er gitt ut fra forholdet mellom dets egen mostand og den totale
+motstanden i parallellkoblingen på følgende vis,
+
+\begin{equation}
+i_{n} = \frac{\frac{1}{R_{n}}}{\frac{1}{R_{1}} + \frac{1}{R_{2}} + \cdots + \frac{1}{R_{n}} + \cdots + \frac{1}{R_{N}}} i_{S}
+\end{equation}
+
+
+\subsection{Wheatstone bridge}
+\index{Wheatstone bridge}
+Wheatstone bridge-kretsen brukes til nøyaktige målinger av
+kretselementer med motstand mellom 1 $\Omega$ og 1 M$\Omega$, og
+består av fire motstander arrangert som vist i figur (sett inn figur
+her).
+
+I utgangspunktet skal spenningsforskjellen mellom node a og b være
+null, slik at kretsen er i balanse.  Hvis dette ikke er tilfelle er
+spenningsforskjellen gitt ved følgende likning,
+
+\begin{equation}
+v_{ab} = v_{a} - v_{b} = v_{s} \left(\frac{R_{2}}{R_{1} + R_{2}} -
+\frac{R_{x}}{R_{3} + R_{x}}\right)
+\end{equation}
+
+For en krets i balanse kan $R_{x}$ regnes ut vha. følgende formel
+
+\begin{equation}
+R_{x} = \frac{R_{2}}{R_{1}}R_{3}
+\end{equation}
+
+
+\subsection{Måleinstrumenter}
+\index{Måleinstrumenter}
+\subsubsection{Ohmmeter}
+\index{Ohmmeter}
+\index{Motstand!måling}
+Et ohmmeter måler et kretselements motstand.  Denne målingen kan kun
+foregå når kretselementet ikke er koblet til andre elementer.
+
+\subsubsection{Amperemeter}
+\index{Amperemeter}
+\index{Strøm!måling}
+Et amperemeter måler strømmen som går gjennom et kretselement.  Det er
+viktig at amperemeteret har en intern motstand som er tilnærmet lik
+null og at det kobles i serie med elementet man ønsker å måle strømmen
+gjennom. En parallellkobling av et amperemeter vil fungere som en
+kortslutning og forstyrre kretsen.
+
+\subsubsection{Voltmeter}
+\index{Voltmeter}
+\index{Spenning!måling}
+Et voltmeter måler spenningen som ligger over et kretselement.  Det er
+viktig at voltmeteret har en intern motstand som går mot uendelig (det
+er naturligvis ikke mulig i praksis, men kan virke sånn sett i forhold
+til resten av kretsen), samt at det kobles i parallell med elemenet vi
+ønsker å måle.
+
+\subsection{Andre begreper i elektriske nettverk}
+\subsubsection{Gren}
+\index{Gren}
+En gren er en vilkårlig del av en krets som har to
+terminaler/endepunkter.  En gren kan inneholde et vilkårlig antall
+kretselementer og forbinder i praksis to noder.
+
+\subsubsection{Node}
+\index{Node}
+En node er et punkt i en krets hvor to eller flere grener er koblet
+sammen.  Man skiller gjerne mellom trivielle noder, som er punkter
+hvor kun to grener møtes, og vesentlige noder, som er punkter hvor mer
+enn to grener møtes.
+
+\subsubsection{Løkke/sløyfe}
+\index{Løkke}
+\index{Sløyfe}
+En løkke/sløyfe er en hvilken som helst bane av grener gjennom kretsen.
+
+\subsubsection{Maske}
+\index{Maske}
+En maske er en løkke/sløyfe som ikke inneholder andre løkker/sløyfer.
+
+\subsubsection{Jord}
+\index{Jord}
+Som nevnt i punkt \ref{Spenning} er jord et valgt nullpunkt i kretsen,
+som man bruker som referansepunkt i utregninger.
+
+\newpage
+\section{Teknikker for kretsanalyse}
+
+\subsection{Nodespenningsmetoden}
+\index{Nodespenningsmetoden}
+Nodespenningsloven har følgende fire grunnprinsipper,
+\begin{enumerate}
+\item Velg en referansenode, vanligvis jord.
+\item Definer de $n-1$ andre vesentlige nodene som de ukjente
+  variablene $V_{a}$, $V_{b}$, osv.
+\item Skriv opp Kirchhoffs strømlov for hver av de $n-1$ nodene, hvor
+  strømmene - som oftest - er uttrykt som $\frac{V}{R}$, der $V$
+  vanligvis blir spenningsforskjellen mellom de aktuelle nodene,
+  feks. $V_{a} - V_{b}$.
+  Strømmer inn i noden angis med positivt fortegn, mens strømmer ut
+  regnes som negative.
+\item Løs likningssettet.
+\end{enumerate}
+
+\subsubsection{Kretser med strømkilder}
+\index{Nodespenningsmetoden!med strømkilder}
+Kretser med strømkilder gjør nodespenningsmetoden enda enklere, siden
+det bare er å sette verdiene for strømkildene rett inn.
+
+\subsubsection{Kretser med spenningskilder}
+\index{Nodespenningsmetoden!med spenningskilder}
+Spenningskilder i kretsen gjør også utregningene lettere, siden de gir
+ferdige tallsvar for opptil flere noder.
+
+\subsection{Maskestrømsmetoden}
+\index{Maskestrømsmetoden}
+Maskestrømsmetoden har mange likhetstrekk med nodespenningsmetoden, og
+kan forklares med følgende tre prinsipper,
+
+\begin{enumerate}
+\item Definer samtlige maskestrømmer konsekvent - nærmere bestemt med
+  klokka.
+\item Skriv opp Kirchhoffs spenningslov for hver enkelt maskestrøm,
+  hvor hver spenning uttrykkes som maskestrøm ganget med motstand. For
+  kretselementer som berøres av to maskestrømmer, skal man for hver
+  maskestrøm føre opp et uttrykk av typen, $(i_{x} - i_{y}) \times R$,
+  hvor $i_{x}$ er maskestrømmen til masken vi analyserer akkurat nå og
+  $i_{y}$ er maskestrømmen til den andre masken som berører
+  kretselementet.  Bare vær konsekvent, så går alt bra.
+\item Løs likningssettet.
+\end{enumerate}
+
+\subsubsection{Kretser med spenningskilder}
+\index{Maskestrømsmetoden!med spenningskilder}
+Maskestrømsmetoden er ekstra effektiv for kretser som kun består av
+spenningskilder, siden det også her bare er å sette spenningsverdiene
+rett inn i uttrykkene for Kirchhoffs spenningslov.
+
+\subsubsection{Kretser med strømkilder}
+\index{Maskestrømsmetoden!med strømkilder}
+Kretser med strømkilder byr ikke på spesielt store problemer enn andre
+kretser, men husk å ha med som en ekstra ligning at $i_{x} - i_{y} = n
+A$, hvor $i_{x}$ og $i_{y}$ er de to maskestrømmene og $n A$ er
+strømkilden på $n$ ampere.
+
+
+\subsection{Node- og maskeanalyse i kretser med avhengige kilder}
+\index{Maskestrømsmetoden!med avhengige kilder}
+\index{Nodespenningsmetoden!med avhengige kilder}
+Ved avhengige kilder i kretsen kan vi bruke følgende fremgangsmåte,
+\begin{enumerate}
+\item Se på de avhengige kildene som uavhengige og sett opp
+  nodespennings- eller maskestrømslikninger deretter.
+\item Erstatt avhengigheten, feks. $\beta i_{x}$, med nodespennings-
+  eller maskestrømslikningen som uttrykker variabelen, i dette
+  eksempelet $i_{x}$.
+\item Løs likningssettet.
+\end{enumerate}
+
+\subsection{Cramers metode}
+\index{Cramers metode}
+Et typisk likningssett man får ved bruk av nodespennings- eller
+maskestrømsmetoden kan se ut som dette,
+
+\begin{eqnarray}
+21i_{1} - 9i_{2} - 12i_{3} & = & -33 \\
+-3i_{1} + 6i_{2} - 2i_{3} & = & 3 \\
+-8i_{1} - 4i_{2} + 22i_{3} & = & 50
+\end{eqnarray}
+
+Det er ingen stor heksekunst å løse likningssettet på tradisjonelt
+vis, men det kan ofte være like raskt å bruke Cramers metode for å få
+ut de tre ukjente.
+
+Hver ukjent i likningssettet uttrykkes da som forholdet mellom to
+determinanter,
+
+\begin{equation}
+x_{k} = \frac{N_{k}}{\Delta},
+\end{equation}
+hvor $x_{k}$ er den ukjente vi ønsker å finne, $N_{k}$ er
+determinanten for ukjent variabel $k$ og $\Delta$ er den såkalte
+karakteristiske determinanten.
+
+$\Delta$ er lik for alle $x_{k}$ og vil i tilfellet over være,
+\begin{equation}
+\Delta = \begin{vmatrix}21 & -9 & -12 \\ -3 & 6 & -2 \\ -8 & -4 &
+    22\end{vmatrix}
+\end{equation}
+
+Determinanten i telleren, $N_{k}$, lages ved å bytte ut kolonne $k$ i
+$\Delta$ med kolonnen på høyre side av likhetstegnet i likningssettet.
+
+I tilfellet over får vi følgende tre determinanter,
+
+\begin{equation}
+N_{1} = \begin{vmatrix}-33 & -9 & -12 \\ 3 & 6 & -2 \\ 50 & -4 &
+    22\end{vmatrix}
+\end{equation}
+
+\begin{equation}
+N_{2} = \begin{vmatrix}21 & -33 & -12 \\ -3 & 3 & -2 \\ -8 & 50 &
+    22\end{vmatrix}
+\end{equation}
+
+\begin{equation}
+N_{3} = \begin{vmatrix}21 & -9 & -33 \\ -3 & 6 & 3 \\ -8 & -4 &
+    50\end{vmatrix}
+\end{equation}
+
+
+\subsection{Superposisjonsprinsippet}
+\index{Superposisjonsprinsippet}
+Superposisjonsprinsippet sier at i en lineær krets med $N$ kilder, er
+hver grenstrøm og hver grenspenning summen av de $N$ strømmer og
+spenninger man får ved å sette alle kilder unntatt én lik null og løse
+kretsen.
+
+Algoritmen for å bruke superposisjonsprinsippet blir altså,
+\begin{enumerate}
+\item Velg én og én av kildene i kretsen, og erstatt de resterende
+  strømkildene med en åpen krets og de resterende spenningskildene med
+  en kortslutning.
+\item Regn ut hver grenstrøm og grenspenning i denne ``nye'' kretsen
+  med bare én kilde.
+\item Summer alle grenstrømmer og grenspenninger fra de forskjellige
+  kretsene.
+\end{enumerate}
+
+
+\subsection{Norton- og Théveninekvivalente kretser}
+\label{avs:norton- og théveninekvivalente kretser}
+En krets som består av ideelle strøm- og spenningskilder og lineære
+motstander kan, \emph{sett fra en lasts ståsted}, erstattes med en
+enkel krets bestående kun av én motstand og enten en strømkilde
+koblet i parallell eller en spenningskilde koblet i serie.
+
+Den ekvivalente kretsen med strømkilde kalles Nortonekvivalent, mens
+kretsen med spenningskilde kalles Théveninekvivalent.
+
+Det er essensielt å huske at dette er fra en lasts ståsted.
+
+\subsubsection{Ekvivalensmotstand}
+\index{Norton!-motstand}
+\index{Thévenin!-motstand}
+Den ekvivalente motstanden, som er den samme enten vi har en Norton-
+eller en Théveninekvivalent krets, regnes ut ved følgende algoritme,
+
+\begin{enumerate}
+\item Fjern lasten fra kretsen.
+\item Alle kilder i kretsen settes lik null, det vil igjen si at
+  strømkilder erstattes med en åpen krets og spenningskilder med en
+  kortslutning.
+\item Beregn den totale motstanden mellom terminalene til lasten,
+  fremdeles med selve lasten fjernet. Her er det en fordel å begynne
+  på motstatt side av lasten i kretsen og arbeide seg systematisk mot
+  lastterminalene.
+\end{enumerate}
+
+\subsubsection{Théveninspenning}
+\index{Thévenin!-spenning}
+Théveninspenningen finnes ved å følge følgende steg,
+\begin{enumerate}
+\item Fjern lasten og la lastterminalene stå igjen som en åpen krets.
+\item Definer spenningen, $v_{OC}$ (open circuit), mellom
+  lastterminalene.
+\item Bruk ønsket teknikk for kretsanalyse (nodespenning, maskestrøm,
+  osv.) til å beregne $v_{OC}$.
+\item Théveninspenningen er lik spenningen mellom lastterminalene,
+  $v_{T} = v_{OC}$.
+\end{enumerate}
+
+\subsubsection{Nortonstrøm}
+\index{Norton!-strøm}
+Nortonstrømmen finnes på følgende måte,
+\begin{enumerate}
+\item Erstatt lasten med en kortslutning.
+\item Definer strømmen gjennom kortslutningen som Nortonstrømmen,
+  $i_{N} = i_{SC}$ (short circuit).
+\item Bruk ønsket teknikk for kretsanalyse for å finne $i_{SC}$.
+\end{enumerate}
+
+\subsection{Kildetransformasjon}
+\index{Kildetransformasjon}
+I avsnitt \ref{avs:norton- og théveninekvivalente kretser} ble det
+slått fast at en krets kan erstattes med motstand og \emph{enten} en
+strømilde koblet i parallell \emph{eller} en spenningskilde koblet i
+serie. Med andre ord er også en krets bestående av den nevnte strømkilden i
+parallell med motstanden ekvivalent med en krets bestående av
+spenningskilden i serie med motstanden, så lenge vi benytter følgende
+relasjon,
+
+\begin{equation}
+v_{T} = R_{T}i_{N}
+\end{equation}
+
+Ved å utnytte dette konseptet systematisk kan man lett redusere store
+og tilsynelatende uoverkommelige kretser ned til en enkel og
+håndterlig krets.
+
+Altså: \emph{Spenningskilde i serie med motstand erstattes med
+  strømkilde i parallell med motstand}
+
+\subsection{Maksimal effektoverføring}
+Teoremet for maksimal effektoverføring forteller oss hvor mye effekt
+vi maksimalt kan overføre til lasten fra resten av kretsen.
+
+Utledning og løsing av maksverdiproblemet gir oss maksimal effekt når
+lasten er lik ekvivalensmotstanden, $R_{T} = R_{L}$.
+
+
+\subsection{Grafisk analyse av ikke-lineære kretser}
+Grafisk analyse av ikke-lineære kretser er et hendig knep for å finne
+strøm gjennom og spenning over et ikke-lineært kretselement uten å
+måtte gjøre grisete utregninger.
+
+Trikset er å 
+\begin{enumerate}
+\item Sette det ikke-lineære kretselementet som last
+\item Finne Thévenin- og Norton-ekvivalentene for kretsen
+\item Plotte kretselementets $i-v$-karakteristikk sammen med en såkalt
+  lastlinje, som har $V_{T}$ som eneste punkt på x-aksen og
+  $\frac{V_{T}}{R_{T}}$ som eneste punkt på y-aksen.
+\end{enumerate}
+
+Det ikke-lineære kretselementets strøm og spenning er nå verdiene der
+de to linjene møtes, det så kalte operasjonspunktet.
+
+
+\section{Vekselsstrømanalyse}
+
+\subsection{Kondensatorer}
+En kondensator er egentlig en åpen krets i form av to plater med
+``luft'' mellom.  Den burde altså ikke kunne føre strøm, men takket
+være kvantemekaniske viderverdigheter (som ligger utenfor pensum) gjør
+den nå engang det; men vel å merke kun ved endringer i spenning eller
+strøm i kretsen.
+
+Når kondensatoren har kommet i likevekt fungerer den nok en gang som
+en åpen krets.  
+
+
+\newpage
+\printindex
+
+\end{document}
